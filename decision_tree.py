@@ -1,21 +1,19 @@
 # decision tree and splitting criteria
 import numpy as np
 import pandas as pd
-import sklearn as sk
+from sklearn import tree
+from sklearn import preprocessing
+import graphviz
 import csv
 
 '''
-lists = deque()
 with open("dataset.csv") as csvfile:
     reader = csv.reader(csvfile)
     for row in reader:
-        lists.append(row)
         #dataset = np.array(", ".join(row))
-
+        
+        
 dataset = np.array([])
-for entry in lists:
-    np.concatenate(dataset, entry)
-
 table = pd.DataFrame(dataset,
                      columns=['Alt', 'Bar', 'Fri', 'Hun', 'Pat', 'Price', 'Rain', 'Res', 'Type', 'Est', 'WillWait'])
 table.index = ['']*len(table)
@@ -36,34 +34,34 @@ dataset = np.array([
     ['No', 'No', 'No', 'No', 'None', '$', 'No', 'No', 'Thai', '0-10', 'No'],
     ['Yes', 'Yes', 'Yes', 'Yes', 'Full', '$', 'No', 'No', 'Burger', '30-60', 'Yes'],
 ])
-data = np.array([
-    ['sunny', 85, 85, 0, 'Don\'t Play'],
-    ['sunny', 80, 90, 1, 'Don\'t Play'],
-    ['overcast', 83, 78, 0, 'Play'],
-    ['rain', 70, 96, 0, 'Play'],
-    ['rain', 68, 80, 0, 'Play'],
-    ['rain', 65, 70, 1, 'Don\'t Play'],
-    ['overcast', 64, 65, 1, 'Play'],
-    ['sunny', 72, 95, 0, 'Don\'t Play'],
-    ['sunny', 69, 70, 0, 'Play'],
-    ['rain', 75, 80, 0, 'Play'],
-    ['sunny', 75, 70, 1, 'Play'],
-    ['overcast', 72, 90, 1, 'Play'],
-    ['overcast', 81, 75, 0, 'Play'],
-    ['rain', 71, 80, 1, 'Don\'t Play'],
-])
 
-'''
 table = pd.DataFrame(dataset,
                      columns=['Alt', 'Bar', 'Fri', 'Hun', 'Pat', 'Price', 'Rain', 'Res', 'Type', 'Est', 'WillWait'])
-blankIndex = [''] * len(table)
-table.index = blankIndex
-print(table)
 
-table = pd.DataFrame(data,
-                     columns=['Outlook', 'Temperature', 'Humidity', 'Windy', 'Play / Don’t Play'])
-blankIndex = [''] * len(table)
-table.index = blankIndex
-print(table)
+x = dataset[:, 0:10]
+y = dataset[:, 10]
+
+encoder = preprocessing.LabelEncoder()
+
+counter = 0
+for sublist in dataset[0, :]:
+    counter += 1
+
+for i in range(counter - 1):
+    x[:, i] = encoder.fit_transform(x[:, i])
+
+y = encoder.fit_transform(y)
+
+DecisionTree = tree.DecisionTreeClassifier(criterion="entropy")
+
+DecisionTree.fit(x, y)
+tree.plot_tree(DecisionTree)
+
 '''
-print(dataset)
+dot_data = tree.export_graphviz(DecisionTree, out_file=None,
+                                feature_names=['Alt', 'Bar', 'Fri', 'Hun', 'Pat', 'Price', 'Rain', 'Res', 'Type', 'Est'],
+                                class_names=encoder.classes_,
+                                filled=True, rounded=True)
+graph = graphviz.Source(dot_data)
+graph.render("mytree1")
+'''
