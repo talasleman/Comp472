@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import filedialog
 import pandas as pd
 
+
 def browse_files():
     #open a file dialog to choose data set from
     #add csv filter
@@ -13,6 +14,8 @@ def browse_files():
         if filename:
             df = pd.read_csv(filename)
             print("File Loaded Successfully")
+
+            
     except Exception as e:
         print("Error: ", e)
         print("Invalid file. Please choose a valid CSV file.")
@@ -24,9 +27,11 @@ def run_ui():
 
     root.title("Decision Tree Classifier")
     root.geometry("500x200")
+
     #add button with command
-    browse_button = tk.Button(root, text="Browse files", command=browse_files)
+    browse_button = tk.Button(root, text="Browse files", command=lambda: browse_files())
+    
     #display button
-    browse_button.pack()
+    browse_button.grid(row=3, column=0, sticky=tk.W, pady=4)
 
     root.mainloop()
