@@ -7,3 +7,4 @@ class Node:
         self.value = value
         self.label = label
         self.children = {}
+        # not exactly sure if will do this
