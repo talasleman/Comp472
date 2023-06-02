@@ -6,37 +6,20 @@ from sklearn import preprocessing
 import graphviz
 import csv
 
-'''
-with open("dataset.csv") as csvfile:
-    reader = csv.reader(csvfile)
-    for row in reader:
-        #dataset = np.array(", ".join(row))
+
+with open("dataset.csv", "r") as csvfile:
+    csv_reader = csv.reader(csvfile)
+    rows = []
+    for row in csv_reader:
+        rows.append(row)
+
+#dataset = np.array(", ".join(row))
         
         
-dataset = np.array([])
+dataset = np.array(rows)
 table = pd.DataFrame(dataset,
                      columns=['Alt', 'Bar', 'Fri', 'Hun', 'Pat', 'Price', 'Rain', 'Res', 'Type', 'Est', 'WillWait'])
-table.index = ['']*len(table)
-print(table.index)
-'''
-
-dataset = np.array([
-    ['Yes', 'No', 'No', 'Yes', 'Some', '$$$', 'No', 'Yes', 'French', '0-10', 'Yes'],
-    ['Yes', 'No', 'No', 'Yes', 'Full', '$', 'No', 'No', 'Thai', '30-60', 'No'],
-    ['No', 'Yes', 'No', 'No', 'Some', '$', 'No', 'No', 'Burger', '0-10', 'Yes'],
-    ['Yes', 'No', 'Yes', 'Yes', 'Full', '$', 'Yes', 'No', 'Thai', '10-30', 'Yes'],
-    ['Yes', 'No', 'Yes', 'No', 'Full', '$$$', 'No', 'Yes', 'French', '>60', 'No'],
-    ['No', 'Yes', 'No', 'Yes', 'Some', '$$', 'Yes', 'Yes', 'Italian', '0-10', 'Yes'],
-    ['No', 'Yes', 'No', 'No', 'None', '$', 'Yes', 'No', 'Burger', '0-10', 'No'],
-    ['No', 'No', 'No', 'Yes', 'Some', '$$', 'Yes', 'Yes', 'Thai', '0-10', 'Yes'],
-    ['No', 'Yes', 'Yes', 'No', 'Full', '$', 'Yes', 'No', 'Burger', '>60', 'No'],
-    ['Yes', 'Yes', 'Yes', 'Yes', 'Full', '$$$', 'No', 'Yes', 'Italian', '10-30', 'No'],
-    ['No', 'No', 'No', 'No', 'None', '$', 'No', 'No', 'Thai', '0-10', 'No'],
-    ['Yes', 'Yes', 'Yes', 'Yes', 'Full', '$', 'No', 'No', 'Burger', '30-60', 'Yes'],
-])
-
-table = pd.DataFrame(dataset,
-                     columns=['Alt', 'Bar', 'Fri', 'Hun', 'Pat', 'Price', 'Rain', 'Res', 'Type', 'Est', 'WillWait'])
+print(table)
 
 x = dataset[:, 0:10]
 y = dataset[:, 10]
