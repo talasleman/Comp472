@@ -42,11 +42,11 @@ def run_ui():
   
     submit_button = tk.Button(root, text="Submit", command=submit)
     submit_button.grid(row=len(labels)+1, column=1)
-
+    '''
     image = Image.open("decision_tree.png")
     photo = ImageTk.PhotoImage(image)
     label = tk.Label(root, image=photo)
     label.image = photo
     label.grid(row=len(labels)+2, column=0, columnspan=2)
-    
+    '''
     root.mainloop()

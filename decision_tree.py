@@ -5,7 +5,6 @@ from sklearn import tree
 from sklearn import preprocessing
 import graphviz
 import csv
-import pydotplus
 from io import StringIO  
 from IPython.display import Image  
 from sklearn.tree import export_graphviz
@@ -33,7 +32,7 @@ def build_and_train_decision_tree():
     # encode all the strings
     encoder = preprocessing.OneHotEncoder()
     x = encoder.fit_transform(x)
-
+    feature_names = encoder.get_feature_names_out(['Alt', 'Bar', 'Fri', 'Hun', 'Pat', 'Price', 'Rain', 'Res', 'Type', 'Est'])
     # encode y
     label_encoder = preprocessing.LabelEncoder()
     y = label_encoder.fit_transform(y)
@@ -43,18 +42,17 @@ def build_and_train_decision_tree():
 
     # builds actual tree
     DecisionTree.fit(x, y)
-    '''
+    
     # should plot but dont know where it is
     tree.plot_tree(DecisionTree)
 
     dot_data = tree.export_graphviz(DecisionTree, out_file=None,
-                                feature_names=['Alt', 'Bar', 'Fri', 'Hun', 'Pat', 'Price', 'Rain', 'Res', 'Type', 'Est'],
-                                class_names=encoder.classes_,
+                                feature_names=feature_names,
+                                class_names=label_encoder.classes_,
                                 filled=True, rounded=True)
     graph = graphviz.Source(dot_data)
-    graph.write_png('decision_tree.png')
-    Image(graph.create_png())
-    '''
+    graph.render('decision_tree')
+    
     return DecisionTree, encoder
 
 
@@ -68,7 +66,3 @@ def classify_instance(DecisionTree, encoder, instance):
     prediction = DecisionTree.predict(instance)
     # return 'yes' if WillWait == 1 else 'no'
     return 'Yes' if prediction == 1 else 'No'
-
-
-
-
