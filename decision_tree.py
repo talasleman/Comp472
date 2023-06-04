@@ -46,11 +46,9 @@ DecisionTree.fit(x, y)
 tree.plot_tree(DecisionTree)
 
 
-'''
 dot_data = tree.export_graphviz(DecisionTree, out_file=None,
                                 feature_names=['Alt', 'Bar', 'Fri', 'Hun', 'Pat', 'Price', 'Rain', 'Res', 'Type', 'Est'],
                                 class_names=encoder.classes_,
                                 filled=True, rounded=True)
 graph = graphviz.Source(dot_data)
 graph.render("mytree1")
-'''
