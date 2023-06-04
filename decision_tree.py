@@ -51,7 +51,10 @@ def build_and_train_decision_tree():
                                 class_names=label_encoder.classes_,
                                 filled=True, rounded=True)
     graph = graphviz.Source(dot_data)
-    graph.render('decision_tree')
+    #create png instead
+    png_file_path = 'decision_tree'
+    graph.format = 'png'
+    graph.render(filename=png_file_path, cleanup=True)
     
     return DecisionTree, encoder
 
