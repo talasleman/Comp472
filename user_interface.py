@@ -3,9 +3,6 @@ from tkinter import filedialog, messagebox
 import pandas as pd
 from decision_tree import build_and_train_decision_tree, classify_instance
 from PIL import ImageTk, Image
-import matplotlib
-from matplotlib import pyplot as plt
-
 DecisionTree = None
 encoder = None
 
@@ -23,12 +20,12 @@ def submit():
 #initialize GUI
 def run_ui():
     global DecisionTree, encoder
-    DecisionTree, encoder = build_and_train_decision_tree()
+    
     root = tk.Tk()
 
     root.title("Decision Tree Classifier")
     root.geometry("500x500")
- 
+    DecisionTree, encoder = build_and_train_decision_tree()
     
     labels = ['Alt', 'Bar', 'Fri', 'Hun', 'Pat', 'Price', 'Rain', 'Res', 'Type', 'Est']
     
