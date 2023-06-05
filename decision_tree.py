@@ -47,14 +47,12 @@ def build_and_train_decision_tree():
     # encode all the strings
     encoder = preprocessing.OneHotEncoder()
     x_train = encoder.fit_transform(x_train)
-    #x_test = encoder.fit_transform(x_test) # the problem is here once fixed uncomment the stuff in bottom of function
 
     feature_names = encoder.get_feature_names_out(
         ['Alt', 'Bar', 'Fri', 'Hun', 'Pat', 'Price', 'Rain', 'Res', 'Type', 'Est'])
     # encode y
     label_encoder = preprocessing.LabelEncoder()
     y_train = label_encoder.fit_transform(y_train)
-    y_test = label_encoder.fit_transform(y_test)
 
     # sets entropy for the tree
     DecisionTree = tree.DecisionTreeClassifier(criterion="entropy", random_state=0)
@@ -74,13 +72,15 @@ def build_and_train_decision_tree():
     png_file_path = 'decision_tree'
     graph.format = 'png'
     graph.render(filename=png_file_path, cleanup=True)
-    '''
-    # predict the output based on test file
-    y_pred = DecisionTree.predict(x_test)
-    print("predicted: ", encoder.inverse_transform(y_pred))
 
-    print(classification_report(y_test, y_pred))
-    '''
+    x_test = encoder.fit_transform(x_test)
+    y_test = label_encoder.fit_transform(y_test)
+
+    # predict the output based on test file
+    #y_pred = DecisionTree.predict(x_test)
+    #print("predicted: ", encoder.inverse_transform(y_pred))
+    #print(classification_report(y_test, y_pred))
+
     return DecisionTree, encoder
 
 
