@@ -78,7 +78,7 @@ def build_and_train_decision_tree():
 
     # predict the output based on test file
     y_pred = DecisionTree.predict(x_test)
-    print("predicted: ", encoder.inverse_transform(y_pred))
+    #print("predicted: ", encoder.inverse_transform(y_pred))
     #print(classification_report(y_test, y_pred))
 
     return DecisionTree, encoder
