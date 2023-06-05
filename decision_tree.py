@@ -5,8 +5,7 @@ from sklearn import tree
 from sklearn import preprocessing
 import graphviz
 import csv
-
-from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report
 
 # import from .csv file
 with open("dataset.csv", "r") as csvfile:
@@ -21,16 +20,24 @@ dataset = np.array(rows)
 table = pd.DataFrame(dataset,
                      columns=['Alt', 'Bar', 'Fri', 'Hun', 'Pat', 'Price', 'Rain', 'Res', 'Type', 'Est', 'WillWait'])
 #print(table)
+with open("test.csv", "r") as testfile:
+    csv_reader = csv.reader(testfile)
+    rows = []
+    for row in csv_reader:
+        rows.append(row)
+
+# concatenate and put everything into a 2D array in numpy format
+testset = np.array(rows)
+# tabulate and put into pretty table
+test_table = pd.DataFrame(testset,
+                     columns=['Alt', 'Bar', 'Fri', 'Hun', 'Pat', 'Price', 'Rain', 'Res', 'Type', 'Est', 'WillWait'])
 
 # seperate the features from the labels
-x = dataset[:, 0:10]
-y = dataset[:, 10]
-split = 0.8
+x_train = dataset[:, 0:10]
+y_train = dataset[:, 10]
 
-x_train = x[0:int(x.shape[0]*split), :]
-y_train = y[0:int(float(y.size)*split)]
-x_test = x[int(x.shape[0]*split):, :]
-y_test = y[int(float(y.size)*split):]
+x_test = testset[:, 0:10]
+y_test = testset[:, 10]
 
 # encode all the strings
 encoder = preprocessing.LabelEncoder()
@@ -51,8 +58,7 @@ y_test = encoder.fit_transform(y_test)
 DecisionTree = tree.DecisionTreeClassifier(criterion="entropy", random_state=0)
 
 # builds actual tree
-DecisionTree.fit(x, y)
-# should plot but dont know where it is
+DecisionTree.fit(x_train, y_train)
 tree.plot_tree(DecisionTree)
 
 dot_data = tree.export_graphviz(DecisionTree, out_file=None,
@@ -62,3 +68,9 @@ dot_data = tree.export_graphviz(DecisionTree, out_file=None,
                                 filled=True, rounded=True)
 graph = graphviz.Source(dot_data)
 graph.render("mytree1")
+
+# predict the output based on test file
+y_pred = DecisionTree.predict(x_test)
+print("predicted: ", encoder.inverse_transform(y_pred))
+
+print(classification_report(y_test, y_pred))
