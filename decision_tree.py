@@ -73,12 +73,12 @@ def build_and_train_decision_tree():
     graph.format = 'png'
     graph.render(filename=png_file_path, cleanup=True)
 
-    x_test = encoder.fit_transform(x_test)
-    y_test = label_encoder.fit_transform(y_test)
+    x_test = encoder.transform(x_test)
+    y_test = label_encoder.transform(y_test)
 
     # predict the output based on test file
-    #y_pred = DecisionTree.predict(x_test)
-    #print("predicted: ", encoder.inverse_transform(y_pred))
+    y_pred = DecisionTree.predict(x_test)
+    print("predicted: ", encoder.inverse_transform(y_pred))
     #print(classification_report(y_test, y_pred))
 
     return DecisionTree, encoder
